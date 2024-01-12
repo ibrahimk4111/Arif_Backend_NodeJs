@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arif BD Ltd</title>
-</head>
-<body>
-    <!-- <%= %> To show output --> 
-    <!-- <%- %> Include other layouts --> 
-    <!-- <% %> write javascripts --> 
-    <h1>Hello! Wellcome to Arif BD</h1>
-    <h1> <%= passText %> </h1>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title><%= title %></title>
+  </head>
+
+  <body>
+    <!-- <%= %> To show output -->
+    <!-- <%- %> Include other layouts -->
+    <!-- <% %> write javascripts -->
+    <%if(products.length){%> <%products.map((product, index)=>{%>
+    <h3><%= index %></h3>
+    <h3><%= product.name %></h3>
+    <h3><%= product.desc %></h3>
+    <%})%> <%} else {%>
+    <h3>No more products are available.</h3>
+    <%}%>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
