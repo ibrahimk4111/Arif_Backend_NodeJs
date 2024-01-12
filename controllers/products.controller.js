@@ -32,7 +32,9 @@ const create_product = async (req, res) => {
     });
 
     await newProducts.save();
-    res.status(200).json({ message: "created new products" });
+    // res.status(200).json({ message: "created new products" });
+    // res.status(200).render("nav.ejs");
+    res.status(301).redirect("/products")
   } catch (error) {
     console.log(error);
   }
