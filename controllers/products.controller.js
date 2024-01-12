@@ -16,12 +16,19 @@ const create_products = async (req, res) => {
   res.status(200).json({ message: "created new products" });
 };
 
-const update_products = (req, res) => {
-  res.json({ message: "update the products" });
+const update_products = async (req, res) => {
+  const product_id = req.params.id;
+  const founded_product = await productSchema.findOne({ _id: product_id });
+  founded_product.name = req.body.name;
+  founded_product.desc = req.body.desc;
+  founded_product.save();
+  res.json({ founded_product, message: "updated the products" });
 };
 
-const delete_products = (req, res) => {
-  res.json({ message: "delete products" });
+const delete_products = async (req, res) => {
+    const product_id = req.params.id;
+    await productSchema.deleteOne({_id: product_id})
+    res.json({ success: true, message: "deleted product successfully" });
 };
 
 module.exports = {
