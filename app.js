@@ -1,18 +1,18 @@
 const express = require('express');
-
 const app = express();
+const router = require("./routers/products.routes")
+const path = require("path");
 const bodyParser = require("body-parser");
+
+// body parser section
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/views'));
+app.use(express.static(path.join(__dirname + '/views')));
 
+// ejs file engine section
 app.set('view engine', 'ejs');
-// app.use()
 
-app.get('/', (req, res) => {
-  // res.render('nav', {passText:"get text from app.js"})
-  res.status(200).json({message: "get db"})
-});
-
+// All the routers for this app
+app.use("/products", router)
 
 module.exports = app;
