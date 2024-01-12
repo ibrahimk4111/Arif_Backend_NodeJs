@@ -5,14 +5,10 @@ const {
   update_products,
   delete_products,
 } = require("../controllers/products.controller");
+
+
 const router = express.Router();
 
-router.get("/get", get_products);
-
-router.post("/create", create_products);
-
-router.put("/update", update_products);
-
-router.delete("/delete", delete_products);
+router.get("/", get_products).post("/create", create_products).put("/update", update_products).delete("/delete", delete_products);
 
 module.exports = router;

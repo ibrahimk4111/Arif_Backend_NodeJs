@@ -4,10 +4,14 @@ const router = require("./routers/products.routes")
 const path = require("path");
 const bodyParser = require("body-parser");
 
+// database connection section
+require("./config/mongodbConnection")
+
 // body parser section
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname + '/views')));
+
 
 // ejs file engine section
 app.set('view engine', 'ejs');

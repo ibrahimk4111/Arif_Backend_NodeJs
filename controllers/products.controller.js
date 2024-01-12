@@ -1,17 +1,27 @@
-const get_products = (req, res) => {
-  res.status(200).json({ message: "get db" });
+const productSchema = require("../models/products.model");
+
+const get_products = async (req, res) => {
+  const products = await productSchema.find();
+  res.status(200).json({ success: true, products });
 };
 
-const create_products = (req, res) => {
-  res.json({ message: "post to db" });
+const create_products = async (req, res) => {
+  const newProducts = new productSchema({
+    name: req.body.name,
+    desc: req.body.desc,
+    createdOn: Date.now(),
+  });
+
+  await newProducts.save();
+  res.status(200).json({ message: "created new products" });
 };
 
 const update_products = (req, res) => {
-  res.json({ message: "update db" });
+  res.json({ message: "update the products" });
 };
 
 const delete_products = (req, res) => {
-  res.json({ message: "delete db" });
+  res.json({ message: "delete products" });
 };
 
 module.exports = {
