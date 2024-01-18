@@ -1,27 +1,27 @@
-const mongoose = require("mongoose");
 const companySchema = require("../models/company.model");
-const productSchema = require("../models/products.model");
 
-// create a new product for a Company
-const create_product_item = async (req, res) => {
+// getting all products
+const get_products = async (req, res) => {
   try {
-    const { product_name, pack_size, desc, inStock } = req.body;
-    const productItem = new productSchema({
-      product_name,
-      pack_size,
-      desc,
-      inStock: Number(inStock),
+    const companiesData = await companySchema.find().populate({ path: "products", model: "products" });
+    res.status(200).json({companiesData});
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+// create a new Company
+const create_company = async (req, res) => {
+  try {
+    const { company_name, website, product_category } = req.body;
+    const newCompany = new companySchema({
+      company_name, 
+      website,
+      product_category
     });
-
-    let objId = new mongoose.Types.ObjectId(productItem.id);
-    await companySchema.updateOne(
-      { _id: "65a978081f014513ddbe3746" },
-      { $push: { products: objId } },
-      { upsert: false, new: true }
-    );
-
-    await productItem.save();
-    res.status(200).json({ productItem });
+    await newCompany.save();
+    res.status(200).json({ newCompany });
   } catch (error) {
     console.log(error);
   }
@@ -56,7 +56,8 @@ const delete_product = async (req, res) => {
 };
 
 module.exports = {
-  create_product_item,
+  get_products,
+  create_company,
   update_product,
   delete_product,
 };

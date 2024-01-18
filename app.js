@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 // ejs file engine section
 app.set('view engine', 'ejs');
-// app.use(express.static(path.join(__dirname + '/views')));
+app.use(express.static(path.join(__dirname + '/views')));
 
 // All the routers for this app
 app.use("/products", router)
