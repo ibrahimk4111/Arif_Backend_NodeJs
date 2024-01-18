@@ -1,16 +1,5 @@
 const companySchema = require("../models/company.model");
 
-// getting all products
-const get_products = async (req, res) => {
-  try {
-    const companiesData = await companySchema.find().populate({ path: "products", model: "products" });
-    res.status(200).json({companiesData});
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
 // create a new Company
 const create_company = async (req, res) => {
   try {
@@ -28,22 +17,24 @@ const create_company = async (req, res) => {
 };
 
 // update the specific product using id
-const update_product = async (req, res) => {
+const update_company = async (req, res) => {
   try {
-    const product_id = req.params.id;
-    const founded_product = await productSchema.findOne({ _id: product_id });
-    founded_product.name = req.body.name;
-    founded_product.desc = req.body.desc;
-    founded_product.updatedOn = Date.now();
-    founded_product.save();
-    res.status(200).json({ success: true, founded_product });
+    const company_id = req.params.id;
+    const founded_company = await companySchema.findOne({ _id: company_id });
+    founded_company.company_name = req.body.company_name;
+    founded_company.website = req.body.website;
+    founded_company.product_category = req.body.product_category;
+    founded_company.updatedOn = Date.now();
+
+    await founded_company.save();
+    res.status(200).send("Succesfully company details updated");
   } catch (error) {
     console.log(error);
   }
 };
 
 // delete the specific product using id
-const delete_product = async (req, res) => {
+const delete_company = async (req, res) => {
   try {
     const product_id = req.params.id;
     await productSchema.deleteOne({ _id: product_id });
@@ -56,8 +47,7 @@ const delete_product = async (req, res) => {
 };
 
 module.exports = {
-  get_products,
   create_company,
-  update_product,
-  delete_product,
+  update_company,
+  delete_company,
 };

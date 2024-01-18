@@ -3,7 +3,7 @@ const companySchema = require("../models/company.model");
 const productSchema = require("../models/products.model");
 
 // create a new product for a Company
-const create_product_item = async (req, res) => {
+const create_product = async (req, res) => {
   try {
     const { product_name, pack_size, desc, inStock } = req.body;
     const productItem = new productSchema({
@@ -15,7 +15,7 @@ const create_product_item = async (req, res) => {
 
     let objId = new mongoose.Types.ObjectId(productItem.id);
     await companySchema.updateOne(
-      { _id: "65a978081f014513ddbe3746" },
+      { _id: "65a97f75e7b5eecd8c412992" },
       { $push: { products: objId } },
       { upsert: false, new: true }
     );
@@ -56,7 +56,7 @@ const delete_product = async (req, res) => {
 };
 
 module.exports = {
-  create_product_item,
+  create_product,
   update_product,
   delete_product,
 };
