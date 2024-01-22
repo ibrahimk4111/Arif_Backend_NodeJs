@@ -9,6 +9,7 @@ const get_company_products = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  
 };
 
 // create a new Company

@@ -4,7 +4,7 @@ const productSchema = require("../models/products.model");
 const upload_to_cloudinary = require("../helper/cloudinaryConfig");
 
 // get all products only
-const get_products = async () =>{
+const get_products = async (req, res) =>{
   const products = await productSchema.find();
   res.status(200).json({ success:true, products })
 }
@@ -33,7 +33,7 @@ const create_product = async (req, res) => {
     // pushing product into a specific companies product array
     let objId = new mongoose.Types.ObjectId(product.id);
     await companySchema.updateOne(
-      { _id: "65aac11053b757b470a9b1f5" },
+      { _id: "65ae8f72b3cbfa879b92fa5a" },
       { $push: { products: objId } },
       { upsert: false, new: true }
     );

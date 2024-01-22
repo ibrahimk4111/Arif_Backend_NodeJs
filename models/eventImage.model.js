@@ -6,4 +6,4 @@ const eventImageSchema = Schema({
   updatedOn: Date,
 });
 
-module.exports = mongoose.model("eventImage", eventImageSchema);
+module.exports = mongoose.model("event_images", eventImageSchema);
