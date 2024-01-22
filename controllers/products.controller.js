@@ -1,27 +1,39 @@
 const mongoose = require("mongoose");
 const companySchema = require("../models/company.model");
 const productSchema = require("../models/products.model");
+const upload_to_cloudinary = require("../helper/cloudinaryConfig");
 
 // create a new product for a Company
 const create_product = async (req, res) => {
   try {
     const { product_name, pack_size, desc, inStock } = req.body;
-    const productItem = new productSchema({
+    const product = new productSchema({
       product_name,
       pack_size,
       desc,
       inStock: Number(inStock),
     });
 
-    let objId = new mongoose.Types.ObjectId(productItem.id);
+    // getting image url from cloudinary cloud
+    const imagePath = req.file?.path;
+    try {
+      const response = await upload_to_cloudinary(imagePath);
+      product.product_image = response.secure_url;
+      console.log("succefully uploaded");
+    } catch (error) {
+      console.log(error);
+    }
+
+    // pushing product into a specific companies product array
+    let objId = new mongoose.Types.ObjectId(product.id);
     await companySchema.updateOne(
-      { _id: "65a97f75e7b5eecd8c412992" },
+      { _id: "65aac11053b757b470a9b1f5" },
       { $push: { products: objId } },
       { upsert: false, new: true }
     );
 
-    await productItem.save();
-    res.status(200).json({ productItem });
+    await product.save();
+    res.status(200).json({ product });
   } catch (error) {
     console.log(error);
   }

@@ -7,8 +7,10 @@ const {
   create_product,
 } = require("../controllers/products.controller");
 
+const upload = require("../middleware/multerFileUpload");
+
 router
-  .post("/create", create_product)
+  .post("/create", upload.single('product_image'), create_product)
   .put("/update/:id", update_product)
   .delete("/delete/:id", delete_product);
 

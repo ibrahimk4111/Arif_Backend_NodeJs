@@ -1,4 +1,4 @@
-const config = require("./dev");
+const config = require("./config");
 const mongoose = require("mongoose");
 
 const uri = config.dbUrl;

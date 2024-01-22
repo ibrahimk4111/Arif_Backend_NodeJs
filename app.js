@@ -10,8 +10,8 @@ const bodyParser = require("body-parser");
 require("./config/mongodbConnection")
 
 // body parser section
-app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 // ejs file engine section
 app.set('view engine', 'ejs');

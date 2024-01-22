@@ -5,7 +5,7 @@ const companySchema = Schema({
   website:String,
   product_category: String,
   products: [{ type: Schema.Types.ObjectId, ref: "product" }],
-  createdOn: { type: Date, default: Date.now },
+  createdOn: { type: Date, default: Date.now() },
   updatedOn: Date,
 });
 
