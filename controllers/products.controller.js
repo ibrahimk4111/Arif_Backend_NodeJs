@@ -3,6 +3,12 @@ const companySchema = require("../models/company.model");
 const productSchema = require("../models/products.model");
 const upload_to_cloudinary = require("../helper/cloudinaryConfig");
 
+// get all products only
+const get_products = async () =>{
+  const products = await productSchema.find();
+  res.status(200).json({ success:true, products })
+}
+
 // create a new product for a Company
 const create_product = async (req, res) => {
   try {
@@ -68,6 +74,7 @@ const delete_product = async (req, res) => {
 };
 
 module.exports = {
+  get_products,
   create_product,
   update_product,
   delete_product,

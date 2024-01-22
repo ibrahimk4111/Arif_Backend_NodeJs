@@ -1,5 +1,16 @@
 const companySchema = require("../models/company.model");
 
+
+// getting all products
+const get_company_products = async (req, res) => {
+  try {
+    const companies = await companySchema.find().populate({ path: "products", model: "products" });
+    res.status(200).json({companies});
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // create a new Company
 const create_company = async (req, res) => {
   try {
@@ -47,6 +58,7 @@ const delete_company = async (req, res) => {
 };
 
 module.exports = {
+  get_company_products,
   create_company,
   update_company,
   delete_company,
