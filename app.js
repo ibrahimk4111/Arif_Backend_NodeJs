@@ -3,6 +3,8 @@ const app = express();
 const eventRouter = require("./routers/event.routes")
 const companyRouter = require("./routers/company.routes")
 const productRouter = require("./routers/products.routes")
+const partnerRouter = require("./routers/partner.routes")
+const clientRouter = require("./routers/client.routes")
 const path = require("path");
 const bodyParser = require("body-parser");
 
@@ -21,6 +23,8 @@ app.use(express.static(path.join(__dirname + '/views')));
 app.use("/companies", companyRouter)
 app.use("/products", productRouter)
 app.use("/events", eventRouter)
+app.use("/partners", partnerRouter)
+app.use("/clients", clientRouter)
 
 app.use((req, res, next)=>{
     res.status(404).json({message: "Page not found"})

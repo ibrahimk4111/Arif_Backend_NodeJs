@@ -37,7 +37,7 @@ const create_event_image = async (req, res) => {
     // pushing product into a specific companies product array
     let objId = new mongoose.Types.ObjectId(eventImage.id);
     await eventSchema.updateOne(
-      { _id: "65aea2e32b5c6c5dd3ba174c" },
+      { _id: "65aead0e52af4fa8c6c999ec" },
       { $push: { event_images: objId } },
       { upsert: false, new: true }
     );
