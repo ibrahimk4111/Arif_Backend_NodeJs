@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // ejs file engine section
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname + '/views')));
+app.use(express.static(path.join(__dirname + '/Uploads')));
 
 // All the routes for this app
 app.use("/companies", companyRouter)
