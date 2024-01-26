@@ -5,8 +5,6 @@ const companySchema = Schema({
   website:String,
   product_category: String,
   products: [{ type: Schema.Types.ObjectId, ref: "product" }],
-  createdOn: { type: Date, default: Date.now() },
-  updatedOn: Date,
-});
+},{timestamps: true});
 
 module.exports = mongoose.model("companies", companySchema);

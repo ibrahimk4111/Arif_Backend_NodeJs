@@ -2,8 +2,6 @@ const { mongoose, Schema } = require("mongoose");
 
 const eventImageSchema = Schema({
   event_image:String,
-  createdOn: { type: Date, default: Date.now() },
-  updatedOn: Date,
-});
+},{timestamps: true});
 
 module.exports = mongoose.model("event_images", eventImageSchema);

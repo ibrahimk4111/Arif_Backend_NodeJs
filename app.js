@@ -5,7 +5,7 @@ const companyRouter = require("./routers/company.routes")
 const productRouter = require("./routers/products.routes")
 const partnerRouter = require("./routers/partner.routes")
 const clientRouter = require("./routers/client.routes")
-const userRouter = require("./routers/login.routes")
+const userRouter = require("./routers/user.routes")
 const path = require("path");
 const bodyParser = require("body-parser");
 
