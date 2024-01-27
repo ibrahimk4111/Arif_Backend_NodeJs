@@ -6,7 +6,10 @@ const config = {
     cloud_name: process.env.CLOUD_NAME,
     cloud_api: process.env.CLOUD_API,
     cloud_secret: process.env.CLOUD_SECRET,
-    encKey: process.env.SOME_LONG_UNGUESSABLE_STRING
+    secretKey: process.env.SOME_LONG_UNGUESSABLE_STRING,
+    smtpMail: process.env.SMTP_EMAIL,
+    smtpPassword: process.env.SMTP_GENERATED_PASSWORD,
+    serverUrl: process.env.SERVER_URL
 }
 
 module.exports = config;
