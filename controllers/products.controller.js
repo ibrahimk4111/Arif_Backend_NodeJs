@@ -33,7 +33,7 @@ const create_product = async (req, res) => {
     // pushing product into a specific companies product array
     let objId = new mongoose.Types.ObjectId(product.id);
     await companySchema.updateOne(
-      { _id: "65ae8f72b3cbfa879b92fa5a" },
+      { _id: "65b6bad9d2d86cd6e30aeabe" },
       { $push: { products: objId } },
       { upsert: false, new: true }
     );

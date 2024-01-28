@@ -9,7 +9,9 @@ const {
 } = require("../controllers/products.controller");
 
 const upload = require("../middleware/multerFileUpload");
+const isLoggedIn = require("../middleware/authentication");
 
+router.use(isLoggedIn)
 router
   .get("/", get_products)
   .post("/create", upload.single("product_image"), create_product)

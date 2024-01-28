@@ -7,8 +7,9 @@ const {
   update_company,
   delete_company,
 } = require("../controllers/company.controller");
+const isLoggedIn = require("../middleware/authentication");
 
-
+router.use(isLoggedIn)
 router
   .get("/", get_company_products)
   .post("/create", create_company)

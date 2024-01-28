@@ -3,26 +3,11 @@ const userSchema = require("../models/user.model");
 const config = require("../config/config");
 const emailWithNodeMailer = require("../helper/nodemailerConfig");
 const jwt = require("jsonwebtoken");
-const bcryptjs  = require("bcryptjs")
+const bcryptjs = require("bcryptjs");
 
+// log in interface
 const userLogInInterface = (req, res) => {
   res.render("loginForm", { title: "log in form" });
-};
-
-//active user using jwt
-const activateUser = async (req, res) => {
-  try {
-    const accessToken = req.params.id;
-    const decode = jwt.verify(accessToken, config.secretKey);
-    if (decode) {
-      await userSchema.create(decode.payload);
-      res.json("user created successfully");
-    } else {
-      console.log("token doesn't found");
-    }
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 // register a new user
@@ -57,7 +42,7 @@ const userRegister = async (req, res) => {
         const mailInfo = await emailWithNodeMailer(emailData);
         res.json("Check your gmail to verify.");
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   } catch (error) {
@@ -65,44 +50,69 @@ const userRegister = async (req, res) => {
   }
 };
 
+// active user using jwt
+const activateUser = async (req, res) => {
+  try {
+    const accessToken = req.params.id;
+    const decode = jwt.verify(accessToken, config.secretKey);
+    if (decode) {
+      await userSchema.create(decode.payload);
+      res.json("user created successfully");
+    } else {
+      console.log("token doesn't found");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// log in access for registered user
+// user log in
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
     // check user exists or not
     const existingUser = await userSchema.findOne({ email: email });
-
     if (existingUser) {
       bcryptjs.compare(password, existingUser.password, async function (err, result) {
           if (result) {
             //make a token and save it to the cookies
-            const loginToken = await createJWT({id: existingUser._id}, config.loginSecretKey, '365d' )
-            res.cookie('loginToken', loginToken, {
+            const loginToken = await createJWT(
+              { _id: existingUser._id },
+              config.loginSecretKey,
+              "365d"
+            );
+            res.cookie("loginToken", loginToken, {
               // maxAge: 15 * 60 * 1000,
               httpOnly: true,
               // secure: true,
-              sameSite: 'none'
-            })
-
+              sameSite: "none",
+            });
             res.status(200).json({ message: "Can access to the DB" });
-          } else {
-            res.status(400).json({ message: "Email doesn't exist." });
           }
         }
       );
     } else {
-      res.status(409).json({ message: "Wrong password and email" });
+      res.status(409).json({ message: "User doen" });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
+  }
+};
+
+// user log out
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("loginToken");
+    res.json("user logged out successfully");
+  } catch (error) {
+    console.log(error);
   }
 };
 
 module.exports = {
   userLogInInterface,
-  activateUser,
   userRegister,
+  activateUser,
   loginUser,
+  logoutUser,
 };
