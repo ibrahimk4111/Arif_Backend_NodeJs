@@ -12,7 +12,7 @@
 
   <div class="container mt-5 ">
     <!-- start log in form  -->
-    <form action="/loginUser" method="post">
+    <form action="/login" method="post">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
@@ -30,7 +30,9 @@
       <% if(title == "log in failed"){ %>
       <h3 class=" text-warning ">Wrong user email and password</h3>
       <% }else{ %>
-      <h3 class=" text-primary ">Please login first</h3>
+      <button class=" text-primary ">
+        <a href="/activate/<%= title %>">Please login first</a>
+      </button>
       <% } %>
     </div>
   </div>

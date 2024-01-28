@@ -1,4 +1,5 @@
 const {mongoose, Schema} = require("mongoose")
+const bcryptjs = require("bcryptjs")
 
 const userSchema = Schema({
     
@@ -12,7 +13,8 @@ const userSchema = Schema({
     },
     password:{
         type:String,
-        required: [true, "Please enter password address"]
+        required: [true, "Please enter password address"],
+        set: (myPassword)=>bcryptjs.hashSync(myPassword, bcryptjs.genSaltSync(10))
     }
     
 },{timestamps: true})

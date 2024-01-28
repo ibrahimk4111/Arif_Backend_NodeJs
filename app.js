@@ -8,6 +8,7 @@ const clientRouter = require("./routers/client.routes")
 const userRouter = require("./routers/user.routes")
 const path = require("path");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 // database connection section
 require("./config/mongodbConnection")
@@ -15,6 +16,7 @@ require("./config/mongodbConnection")
 // body parser section
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cookieParser())
 
 // ejs file engine section
 app.set('view engine', 'ejs');

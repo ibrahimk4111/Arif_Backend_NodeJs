@@ -9,6 +9,7 @@ const createJWT = async (payload, secretKey, time) =>{
     }
     
     try {
+        //creating the token
         const token = jwt.sign({payload}, secretKey, {expiresIn:time});   
         return token;
     } catch (error) {
