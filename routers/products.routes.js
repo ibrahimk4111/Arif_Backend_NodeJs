@@ -9,7 +9,7 @@ const {
 } = require("../controllers/products.controller");
 
 const upload = require("../middleware/multerFileUpload");
-const isLoggedIn = require("../middleware/authentication");
+const {isLoggedIn} = require("../middleware/authentication");
 
 router.use(isLoggedIn)
 router

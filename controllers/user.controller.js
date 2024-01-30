@@ -5,6 +5,16 @@ const emailWithNodeMailer = require("../helper/nodemailerConfig");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
+let regToken = '';
+
+// Home interface
+const homeInterface = (req, res) => {
+  res.render("home", { title: "Home page" });
+};
+// Register interface
+const userRegInterface = (req, res) => {
+  res.render("regForm", { title: "sign up form" });
+};
 // log in interface
 const userLogInInterface = (req, res) => {
   res.render("loginForm", { title: "log in form" });
@@ -14,11 +24,10 @@ const userLogInInterface = (req, res) => {
 const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
     // checking whether user exist or not
     const existingUser = await userSchema.findOne({ email: email });
     if (existingUser) {
-      res.json("User already exist. Please log in.");
+      res.json("User already exist. Log in please.");
     } else {
       try {
         //token generating
@@ -28,19 +37,21 @@ const userRegister = async (req, res) => {
           "10m"
         );
 
+        regToken = token;
+
         // preparing mail data
         const emailData = {
           email,
           subject: "Account activation email",
           html: `
       <h2>Hello ${name} !</h2>
-      <p>please click here to <a href="${config.serverUrl}/activate/${token}" target="_blanck">activate your account</a></p> 
+      <p>please click here to <a href="${config.serverUrl}/activate" target="_blanck">activate your account</a></p> 
       `,
         };
 
         // send mail to the user
-        const mailInfo = await emailWithNodeMailer(emailData);
-        res.json("Check your gmail to verify.");
+        await emailWithNodeMailer(emailData);
+        res.render('checkEmail');
       } catch (error) {
         console.log(error);
       }
@@ -53,14 +64,15 @@ const userRegister = async (req, res) => {
 // active user using jwt
 const activateUser = async (req, res) => {
   try {
-    const accessToken = req.params.id;
-    const decode = jwt.verify(accessToken, config.secretKey);
+    const decode = jwt.verify(regToken, config.secretKey);
     if (decode) {
       await userSchema.create(decode.payload);
-      res.json("user created successfully");
+      // res.json("user created successfully");
+      res.redirect("/")
     } else {
-      console.log("token doesn't found");
+      res.json("token doesn't found");
     }
+
   } catch (error) {
     console.log(error);
   }
@@ -73,7 +85,10 @@ const loginUser = async (req, res) => {
     // check user exists or not
     const existingUser = await userSchema.findOne({ email: email });
     if (existingUser) {
-      bcryptjs.compare(password, existingUser.password, async function (err, result) {
+      bcryptjs.compare(
+        password,
+        existingUser.password,
+        async function (err, result) {
           if (result) {
             //make a token and save it to the cookies
             const loginToken = await createJWT(
@@ -82,7 +97,7 @@ const loginUser = async (req, res) => {
               "365d"
             );
             res.cookie("loginToken", loginToken, {
-              // maxAge: 15 * 60 * 1000,
+              // maxAge: 50 * 60 * 1000,
               httpOnly: true,
               // secure: true,
               sameSite: "none",
@@ -110,6 +125,8 @@ const logoutUser = async (req, res) => {
 };
 
 module.exports = {
+  homeInterface,
+  userRegInterface,
   userLogInInterface,
   userRegister,
   activateUser,

@@ -1,23 +1,35 @@
 const jwt = require("jsonwebtoken");
 const { loginSecretKey } = require("../config/config");
 
-const isLoggedIn = (req, res, next) =>{
-    try {
-        const token = req.cookies.logintoken;
-        if(token){
-            const decoded = jwt.verify(token, loginSecretKey);
-            if(decoded){
-                console.log("Invalid access token. Please login again.")
-                req.body.userId = decoded._id;
-            }else{
-                console.log("Invalid access token")
-            }
-        }
-        next();
-    } catch (error) {
-        console.log(error)
-        next(error)
+// isLoggedIn middleware
+const isLoggedIn = (req, res, next) => {
+  try {
+    const token = req.cookies.logintoken;
+    if (!token) {
+      res.redirect("/login");
     }
-}
+    const decoded = jwt.verify(token, loginSecretKey);
+    if (!decoded) {
+      res.json('invalid access token')
+    }
+    req.body.userId = decoded._id;
+    next();
+  } catch (error) {
+    res.json(error);
+  }
+};
 
-module.exports = isLoggedIn
+// isLoggedOut middleware
+const isLoggedOut = (req, res, next) => {
+  try {
+    const token = req.cookies.logintoken;
+    if (!token) {
+      res.json("You are not logged in yet. Please log in first.");
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { isLoggedIn, isLoggedOut };

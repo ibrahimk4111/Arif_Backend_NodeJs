@@ -7,7 +7,7 @@ const {
   update_company,
   delete_company,
 } = require("../controllers/company.controller");
-const isLoggedIn = require("../middleware/authentication");
+const { isLoggedIn } = require("../middleware/authentication");
 
 router.use(isLoggedIn)
 router

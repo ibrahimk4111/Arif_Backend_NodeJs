@@ -1,12 +1,15 @@
 const express = require("express");
-const {userLogInInterface, activateUser, userRegister, loginUser, logoutUser} = require("../controllers/user.controller");
+const {userLogInInterface, activateUser, userRegister, loginUser, logoutUser, homeInterface, userRegInterface} = require("../controllers/user.controller");
+const { isLoggedIn, isLoggedOut } = require("../middleware/authentication");
 const router = express.Router();
 
 router
-  .get("/", userLogInInterface)
+  .get("/", isLoggedIn, homeInterface)
+  .get("/reg", userRegInterface)
+  .get("/login", userLogInInterface)
   .post("/reg", userRegister)
-  .get("/activate/:id", activateUser)
-  .post("/login", loginUser)
-  .post("/logout", logoutUser)
+  .get("/activate", activateUser)
+  .post("/login", isLoggedOut, loginUser)
+  .post("/logout", isLoggedIn, logoutUser)
 
 module.exports = router;

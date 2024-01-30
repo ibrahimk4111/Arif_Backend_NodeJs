@@ -7,9 +7,8 @@ const get_company_products = async (req, res) => {
     const companies = await companySchema.find().populate({ path: "products", model: "products" });
     res.status(200).json({companies});
   } catch (error) {
-    console.log(error);
+    next(error);
   }
-  
 };
 
 // create a new Company
