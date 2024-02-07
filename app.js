@@ -21,6 +21,7 @@ app.use(cookieParser())
 // ejs file engine section
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname + '/Uploads')));
+app.set('trust proxy', true)
 
 // All the routes for this app
 app.use("/", userRouter)

@@ -7,13 +7,15 @@ const isLoggedIn = (req, res, next) => {
     const token = req.cookies.logintoken;
     if (!token) {
       res.redirect("/login");
+      return;
+    } else {
+      const decoded = jwt.verify(token, loginSecretKey);
+      if (!decoded) {
+        res.json("invalid access token");
+      }
+      req.body.userId = decoded._id;
+      next();
     }
-    const decoded = jwt.verify(token, loginSecretKey);
-    if (!decoded) {
-      res.json('invalid access token')
-    }
-    req.body.userId = decoded._id;
-    next();
   } catch (error) {
     res.json(error);
   }

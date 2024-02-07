@@ -1,3 +1,4 @@
+const fs = require("fs");
 const createJWT = require("../helper/jwtConfig");
 const userSchema = require("../models/user.model");
 const config = require("../config/config");
@@ -5,7 +6,7 @@ const emailWithNodeMailer = require("../helper/nodemailerConfig");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
-let regToken = '';
+let regToken = "";
 
 // Home interface
 const homeInterface = (req, res) => {
@@ -17,7 +18,9 @@ const userRegInterface = (req, res) => {
 };
 // log in interface
 const userLogInInterface = (req, res) => {
-  res.render("loginForm", { title: "log in form" });
+  // const ip = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || "";
+  const ip = req.ip;
+  res.render("loginForm", { title: "log in form", ipAdd: ip });
 };
 
 // register a new user
@@ -51,7 +54,7 @@ const userRegister = async (req, res) => {
 
         // send mail to the user
         await emailWithNodeMailer(emailData);
-        res.render('checkEmail');
+        res.render("checkEmail");
       } catch (error) {
         console.log(error);
       }
@@ -68,11 +71,10 @@ const activateUser = async (req, res) => {
     if (decode) {
       await userSchema.create(decode.payload);
       // res.json("user created successfully");
-      res.redirect("/")
+      res.redirect("/");
     } else {
       res.json("token doesn't found");
     }
-
   } catch (error) {
     console.log(error);
   }
