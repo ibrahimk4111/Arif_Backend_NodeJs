@@ -8,20 +8,9 @@ const bcryptjs = require("bcryptjs");
 
 let regToken = "";
 
-// Home interface
-const homeInterface = (req, res) => {
-  res.render("home", { title: "Home page" });
-};
-// Register interface
-const userRegInterface = (req, res) => {
-  res.render("regForm", { title: "sign up form" });
-};
-// log in interface
-const userLogInInterface = (req, res) => {
-  // const ip = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || "";
-  const ip = req.ip;
-  res.render("loginForm", { title: "log in form", ipAdd: ip });
-};
+const homeInterFace = async (req, res)=>{
+  res.json("Welcome")
+}
 
 // register a new user
 const userRegister = async (req, res) => {
@@ -54,7 +43,7 @@ const userRegister = async (req, res) => {
 
         // send mail to the user
         await emailWithNodeMailer(emailData);
-        res.render("checkEmail");
+        res.json("checkEmail");
       } catch (error) {
         console.log(error);
       }
@@ -127,9 +116,7 @@ const logoutUser = async (req, res) => {
 };
 
 module.exports = {
-  homeInterface,
-  userRegInterface,
-  userLogInInterface,
+  homeInterFace,
   userRegister,
   activateUser,
   loginUser,
