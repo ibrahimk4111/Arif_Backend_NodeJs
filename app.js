@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const userRouter = require("./routers/user.routes")
+const itemRouter = require("./routers/item.routes")
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { homeInterFace } = require('./controllers/user.controller');
+const { homeInterFace } = require('./controllers/item.controller');
 
 // database connection section
 require("./config/mongodbConnection")
@@ -20,8 +21,8 @@ app.use(express.static(path.join(__dirname + '/Uploads')));
 app.set('trust proxy', true)
 
 // All the routes for this app
-app.use("/", homeInterFace)
 app.use("/user", userRouter)
+app.use("/", itemRouter)
 
 app.use((req, res, next)=>{
     res.status(404).json({message: "Page not found"})

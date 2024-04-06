@@ -8,10 +8,6 @@ const bcryptjs = require("bcryptjs");
 
 let regToken = "";
 
-const homeInterFace = async (req, res)=>{
-  res.json("Welcome")
-}
-
 // register a new user
 const userRegister = async (req, res) => {
   try {
@@ -116,7 +112,6 @@ const logoutUser = async (req, res) => {
 };
 
 module.exports = {
-  homeInterFace,
   userRegister,
   activateUser,
   loginUser,
